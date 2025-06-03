@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'Region';
+    src: url("fonts/Region.ttf") format("truetype");
+}
+
+.title{
+    font-family: 'Region', sans-serif;
+    color: rgb(49, 137, 238);
+    font-size: 85px;
+    padding-top: 25px;
+    margin-bottom: 0px;
+    text-align: center;
+    transform: scale(1);
+    transition: 1s ease-in-out;
+}
+
+.title:hover{
+    color: rgb(30, 128, 239);
+    transform: scale(1.10)
+}
+
+.subtitle{
+    font-family: 'Region', sans-serif;
+    color: rgb(3, 24, 49);
+    font-size: 18px;
+    margin-top: 0px;
+    text-align: center;
+    transform: scale(1);
+    transition: 1s ease-in-out;
+}
