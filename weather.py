@@ -7,6 +7,7 @@ from dataclasses import dataclass
 load_dotenv()
 apikey=os.getenv("API_KEY")
 
+#created a user defined structure- like in DS
 @dataclass
 class Weatherdata:
     main: str
@@ -34,9 +35,10 @@ def currentweather(latitude,longitude,API_key):
         main=response.get("weather")[0].get("main"),
         description=response.get("weather")[0].get("description"),
         icon=response.get("weather")[0].get("icon"),
-        temperature=int(response.get("main").get("temp")))
+        temperature=int(response.get("main").get("temp"))) #to access theese details
     return data
 
+#function to call logituteandlatitude function 
 def main(cityname,statename,countryname):
     latitude,longitude = getdetails(cityname,statename,countryname,apikey)
     currentweatherdata=currentweather(latitude,longitude,apikey)

@@ -28,3 +28,7 @@
     transform: scale(1);
     transition: 1s ease-in-out;
 }
+
+.form-control{
+    width: 400px;
+}
