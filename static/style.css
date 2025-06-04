@@ -3,6 +3,8 @@
     src: url("fonts/Region.ttf") format("truetype");
 }
 
+
+
 .title{
     font-family: 'Region', sans-serif;
     color: rgb(49, 137, 238);
@@ -13,12 +15,10 @@
     transform: scale(1);
     transition: 1s ease-in-out;
 }
-
 .title:hover{
     color: rgb(30, 128, 239);
     transform: scale(1.10)
 }
-
 .subtitle{
     font-family: 'Region', sans-serif;
     color: rgb(3, 24, 49);
@@ -29,6 +29,70 @@
     transition: 1s ease-in-out;
 }
 
+
+
 .form-control{
     width: 400px;
+    margin-left: 0px;
+    margin-top: 10px;
 }
+.firstformrow{
+    margin-left: 480px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.firstformrow label{
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: 75px;
+    margin-right: 10px;
+    min-width: 60px
+}
+#cityname {
+    margin-top: 80px;
+}
+
+.secondformrow{
+    margin-left: 470px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+.secondformrow label{
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-right: 10px;
+    min-width: 60px
+}
+#statename {
+    margin-top: 5px;
+}
+
+.thirdformrow{
+    margin-left: 442px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+.thirdformrow label{
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: 0px;
+    margin-right: 10px;
+    min-width: 60px
+}
+#countryname {
+    margin-top: 5px;
+}
+
+
+.btn{
+    margin-top: 10px;
+    margin-left: 730px;
+    width: 100px;
+}
+
+
+

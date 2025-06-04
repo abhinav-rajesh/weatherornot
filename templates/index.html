@@ -11,10 +11,21 @@
     <h1 class="title">WeatherOrNot</h1>
     <h5 class="subtitle">Because 'Maybe' isn't a weather report</h5>
     <form action="/" method="POST">
+        <div class="firstformrow">   
+        <label for="cityname">City Name: </label>
         <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name">
-        <input class="form-control form-control-lg" type="text" id="statename" name="statename" value="Kerala">
-        <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" value="India">
-        <button>
+        </div>
+
+        <div class="secondformrow">
+            <label for="statename">State Name: </label>
+            <input class="form-control form-control-lg" type="text" id="statename" name="statename" value="Kerala">
+        </div>
+        
+        <div  class="thirdformrow">
+            <label for="countryname">Country Name: </label>
+            <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" value="India">
+        </div>
+        <button class="btn btn-outline-primary">
             Enter
         </button>
     </form>
