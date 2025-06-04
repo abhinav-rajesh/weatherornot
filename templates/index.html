@@ -10,5 +10,16 @@
 <body>
     <h1 class="title">WeatherOrNot</h1>
     <h5 class="subtitle">Because 'Maybe' isn't a weather report</h5>
+    <form action="/" method="POST">
+        <input type="text" id="cityname" name="cityname" placeholder="City">
+        <input type="text" id="statename" name="statename" value="ON">
+        <input type="text" id="countryname" name="countryname" value="Canada">
+        <button>
+            Enter
+        </button>
+    </form>
+    {% if data %}
+    {{ data }}
+    {% endif %}
 </body>
 </html>
