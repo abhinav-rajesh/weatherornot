@@ -12,7 +12,7 @@ class Weatherdata:
     main: str
     description: str
     icon: str
-    temperature: float
+    temperature: int
 
 
 #Function to get Latitude and Longitude to calculate Weather Data
@@ -29,12 +29,12 @@ def getdetails(city_name,state_code,country_code,API_key):
 #function to get current weather using latitude and longitude
 def currentweather(latitude,longitude,API_key):
     response=requests.get(
-        f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_key}&unit=metric").json()
+        f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={API_key}").json()
     data=Weatherdata(
         main=response.get("weather")[0].get("main"),
         description=response.get("weather")[0].get("description"),
         icon=response.get("weather")[0].get("icon"),
-        temperature=response.get("main").get("temp"))
+        temperature=int(response.get("main").get("temp")))
     return data
 
 def main(cityname,statename,countryname):

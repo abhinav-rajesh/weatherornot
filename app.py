@@ -13,6 +13,5 @@ def index():
     return render_template("index.html",data=data) 
 
 
-
 if __name__ in "__main__":
     app.run(debug=True)

@@ -19,7 +19,8 @@
         </button>
     </form>
     {% if data %}
-    {{ data }}
+    {{ data.main }}:{{ data.description }} <br>
+    {{ data.temperature }} C
     {% endif %}
 </body>
 </html>
