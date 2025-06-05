@@ -48,7 +48,7 @@
         <div class="weather-header">{{ data.main }}</div>
         <div class="weather-description">{{ data.description }}</div>
         <div class="weather-temp">
-            {% if data.temperature is not none %} {# Check if temperature exists #}
+            {% if data.temperature is not none %} 
                 {{ data.temperature }}°C
             {% else %}
                 N/A {# Fallback if temperature is missing #}
@@ -58,110 +58,92 @@
     {% endif %}
 
     <script>
-        // Get the main weather condition from Flask data, default to empty string
-        const weather = "{{ data.main if data else '' }}".toLowerCase();
+    //understand weather from flask
+    const weather = "{{ data.main if data else '' }}".toLowerCase();
 
-        // Map weather conditions to video file names
-        const videoMap = {
-            rain: "rain.mp4",
-            clouds: "cloud.mp4",
-            clear: "clear.mp4",
-            snow: "snow.mp4",
-            drizzle: "drizzle.mp4",
-            thunderstorm: "rain.mp4",
-            mist: "cloud.mp4",
-            haze: "clear.mp4", // Map common conditions to existing videos
-            fog: "cloud.mp4",
-            smoke: "cloud.mp4",
-            dust: "cloud.mp4",
-            sand: "cloud.mp4",
-            ash: "cloud.mp4",
-            squall: "rain.mp4",
-            tornado: "rain.mp4"
-        };
+    // Map of weather to background videos
+    const videoMap = {
+        rain: "rain.mp4",
+        clouds: "cloud.mp4",
+        clear: "clear.mp4",
+        snow: "snow.mp4",
+        drizzle: "drizzle.mp4",
+        thunderstorm: "rain.mp4",
+        mist: "cloud.mp4",
+        haze: "clear.mp4",
+        fog: "cloud.mp4",
+        smoke: "cloud.mp4",
+        dust: "cloud.mp4",
+        sand: "cloud.mp4",
+        ash: "cloud.mp4",
+        squall: "rain.mp4",
+        tornado: "rain.mp4"
+    };
 
-        // Map weather conditions to Font Awesome icon classes
-        const iconMap = {
-            clear: "fas fa-sun",
-            clouds: "fas fa-cloud",
-            rain: "fas fa-cloud-showers-heavy",
-            drizzle: "fas fa-cloud-rain",
-            thunderstorm: "fas fa-bolt",
-            snow: "fas fa-snowflake",
-            mist: "fas fa-smog",
-            haze: "fas fa-smog",
-            fog: "fas fa-smog",
-            smoke: "fas fa-smog",
-            dust: "fas fa-smog",
-            sand: "fas fa-smog",
-            ash: "fas fa-smog",
-            squall: "fas fa-wind",
-            tornado: "fas fa-wind"
-        };
+    // Map of weather to icon 
+    const iconMap = {
+        clear: "fas fa-sun",
+        clouds: "fas fa-cloud",
+        rain: "fas fa-cloud-showers-heavy",
+        drizzle: "fas fa-cloud-rain",
+        thunderstorm: "fas fa-bolt",
+        snow: "fas fa-snowflake",
+        mist: "fas fa-smog",
+        haze: "fas fa-smog",
+        fog: "fas fa-smog",
+        smoke: "fas fa-smog",
+        dust: "fas fa-smog",
+        sand: "fas fa-smog",
+        ash: "fas fa-smog",
+        squall: "fas fa-wind",
+        tornado: "fas fa-wind"
+    };
 
-        // Determine the target video and icon based on current weather data
-        const targetVideoFileName = videoMap[weather] || "clear.mp4";
-        const targetIconClass = iconMap[weather] || "fas fa-question-circle"; // Default icon for unknown conditions
+    // Choose video and icon based on weather
+    const videoFile = videoMap[weather] || "clear.mp4";
+    const iconClass = iconMap[weather] || "fas fa-question-circle";
 
-        const video1 = document.getElementById("video1");
-        const video2 = document.getElementById("video2");
-        const weatherIconElement = document.getElementById("weatherIcon");
+    // Get from html
+    const video1 = document.getElementById("video1");
+    const video2 = document.getElementById("video2");
+    const icon = document.getElementById("weatherIcon");
 
-        // Function to smoothly transition between background videos
-        function transitionVideos(newVideoSrc) {
-            // Get the current source of video1 (which is the active video)
-            const currentVideo1Src = video1.querySelector("source").src;
+    // Show the correct icon
+    if (icon && weather) {
+        icon.className = "weather-icon " + iconClass;
+    }
 
-            // If the new video is already playing on video1, no transition needed
-            if (currentVideo1Src.includes(newVideoSrc)) {
-                return;
-            }
+    // Function to smoothly switch background video
+    function switchVideo(newSrc) {
+        const currentSrc = video1.querySelector("source").src;
 
-            // Set the new video source to video2 and load it
-            video2.querySelector("source").src = newVideoSrc;
-            video2.load();
+        if (currentSrc.includes(newSrc)) return; // Already showing
 
-            // When video2 is sufficiently buffered to play without interruption
-            video2.oncanplaythrough = () => {
-                video2.play(); // Ensure video2 starts playing
+        video2.querySelector("source").src = newSrc;
+        video2.load();
 
-                // Trigger the CSS opacity transition for crossfade
-                video2.style.opacity = 1; // Make video2 visible
-                video1.style.opacity = 0; // Hide video1
+        video2.oncanplaythrough = () => {
+            video2.play();
+            video2.style.opacity = 1;
+            video1.style.opacity = 0;
 
-                // After the transition duration, swap the videos' roles
-                // This makes video1 the active background again, ready for next transition
-                setTimeout(() => {
-                    video1.querySelector("source").src = newVideoSrc; // Update video1's source to the new video
-                    video1.load(); // Load the new video into video1
-                    video1.style.opacity = 1; // Make video1 visible
-                    video2.style.opacity = 0; // Hide video2
-                    video2.querySelector("source").src = ""; // Clear video2's source to free up resources
-                    video1.play(); // Ensure video1 is playing
-                }, 2500); // This delay should match the CSS transition duration (2.5s)
-            };
-        }
-
-        // --- Main execution logic on page load/form submission ---
-
-        // Apply icon if weather data is present
-        if (weatherIconElement && weather) {
-            weatherIconElement.className = "weather-icon " + targetIconClass;
-        }
-
-        // Handle video playback and transitions
-        if (weather) {
-            // If weather data is present, initiate transition to the appropriate video
-            transitionVideos(`/static/video/${targetVideoFileName}`);
-        } else {
-            // If no weather data (e.g., initial page load)
-            // Ensure video1 (with clear.mp4) is visible and video2 is hidden
-            video1.style.opacity = 1;
-            video2.style.opacity = 0;
-            if (!video1.playing) { // Ensure video1 is playing if it's the default
+            setTimeout(() => {
+                video1.querySelector("source").src = newSrc;
+                video1.load();
                 video1.play();
-            }
-        }
-    </script>
-</body>
-</html>
+                video1.style.opacity = 1;
+                video2.style.opacity = 0;
+                video2.querySelector("source").src = "";
+            }, 2500);
+        };
+    }
+
+    // Start the video on page load or after form submit
+    if (weather) {
+        switchVideo(`/static/video/${videoFile}`);
+    } else {
+        video1.style.opacity = 1;
+        video2.style.opacity = 0;
+        if (video1.paused) video1.play();
+    }
+</script>
