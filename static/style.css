@@ -4,87 +4,139 @@
     src: url("fonts/Region.ttf") format("truetype");
 }
 
+/* Basic body and HTML styling to cover viewport and prevent scroll */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide scrollbars if content overflows */
+    height: 100%; /* Ensure full height */
+    background-color: #333; /* Fallback background color */
+}
 
-.title{
+/* Video container to hold layered videos */
+.video-container {
+    position: fixed; /* Fixed to viewport */
+    top: 0;
+    left: 0;
+    height: 100%; /* Full height of viewport */
+    width: 100%; /* Full width of viewport */
+    z-index: -1; /* Place behind all other content */
+    overflow: hidden; /* Hide anything outside */
+}
+
+/* Styling for both background video elements */
+.bgVideo {
+    position: absolute; /* Positioned within .video-container */
+    top: 0;
+    left: 0;
+    min-width: 100vw; /* Ensure it covers full viewport width */
+    min-height: 100vh; /* Ensure it covers full viewport height */
+    object-fit: cover; /* Cover the entire container, cropping if necessary */
+    transition: opacity 2.5s ease-in-out; /* Smooth opacity transition for crossfading */
+}
+
+/* General content positioning over video */
+body {
+    position: relative; /* Establish positioning context for children */
+    z-index: 1; /* Place above the video layer */
+    color: white; /* Default text color for elements over video */
+}
+
+/* Ensure specific elements are above the video and have good readability */
+.title, .subtitle, label, input, .btn, .weather-card {
+    position: relative;
+    z-index: 2; /* Higher z-index for content */
+}
+
+/* Page Title Styling */
+.title {
     font-family: 'Region', sans-serif;
-    color: rgb(49, 137, 238);
-    font-size: 95px;
-    padding-top: 25px;
-    margin-bottom: 0px;
+    font-size: 5rem;
+    color: #ffffff;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); /* Strong shadow for readability */
+    letter-spacing: 4px;
     text-align: center;
-    transform: scale(1);
-    transition: 1s ease-in-out;
+    margin-top: 40px;
+    animation: fadeInDown 1s ease-in-out; /* Entrance animation */
 }
-.title:hover{
-    color: rgb(30, 128, 239);
-    transform: scale(1.10)
-}
-.subtitle{
-    font-family: 'Region', sans-serif;
-    color: rgb(3, 24, 49);
-    font-size: 18px;
-    margin-top: 0px;
+
+/* Page Subtitle Styling */
+.subtitle {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
     text-align: center;
-    transform: scale(1);
-    transition: 1s ease-in-out;
+    margin-bottom: 50px;
+    animation: fadeInUp 1.2s ease-in-out; /* Entrance animation */
 }
 
-
-
-.form-control{
-    width: 400px;
-    margin-left: 0px;
-    margin-top: 10px;
+/* Keyframe Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-.firstformrow{
-    margin-left: 480px;
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Form Layout & Alignment --- */
+form {
     display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+    flex-direction: column;
+    align-items: center; /* Center the entire form block horizontally */
+    margin-top: 30px; /* Adjust as needed for vertical spacing from subtitle */
 }
-.firstformrow label{
+
+/* New: A container for each label-input pair to ensure proper alignment */
+.form-group {
+    display: flex;
+    align-items: center; /* Vertically align label and input */
+    width: 600px; /* Consistent total width for each label-input row */
+    margin-bottom: 15px; /* Spacing between form rows */
+}
+
+.form-group label {
     font-weight: 500;
     font-size: 20px;
-    margin-top: 75px;
-    margin-right: 10px;
-    min-width: 60px
-}
-#cityname {
-    margin-top: 80px;
-}
-
-.secondformrow{
-    margin-left: 470px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0px;
-}
-.secondformrow label{
-    font-weight: 500;
-    font-size: 20px;
-    margin-top: 0px;
-    margin-right: 10px;
-    min-width: 60px
-}
-#statename {
-    margin-top: 5px;
+    min-width: 150px; /* Fixed width for labels to align their right edges */
+    text-align: right; /* Align label text to the right within its min-width */
+    color: white;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    padding-right: 20px; /* Space between label and input field */
 }
 
-.thirdformrow{
-    margin-left: 442px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0px;
+/* Form Control (Input fields) Styling */
+.form-control {
+    flex-grow: 1; /* Allow input to take up remaining space in the form-group */
+    width: auto; /* Override fixed width to let flex-grow work */
+    max-width: 400px; /* Set a maximum width for inputs */
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border for glass effect */
+    color: white; /* White text for input */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Text shadow for readability */
+    border-radius: 0.375rem; /* Bootstrap default border-radius */
+    padding: 0.375rem 0.75rem; /* Standard padding */
+    line-height: 1.5; /* Standard line-height */
 }
-.thirdformrow label{
-    font-weight: 500;
-    font-size: 20px;
-    margin-top: 0px;
-    margin-right: 10px;
-    min-width: 60px
-}
-#countryname {
-    margin-top: 5px;
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Lighter placeholder text */
 }
 
 .form-control:focus {
@@ -94,9 +146,9 @@
     color: white;
 }
 
-.btn{
+/* Button Styling - make sure it's centered with the form now */
+.btn {
     margin-top: 10px;
-    margin-left: 730px;
     width: 100px;
     /* No margin-left needed, as the form is centered by align-items: center */
     background: rgba(255, 255, 255, 0.2); /* Glassmorphism background */
