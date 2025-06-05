@@ -29,9 +29,12 @@
             Enter
         </button>
     </form>
-    {% if data %}
-    {{ data.main }}:{{ data.description }} <br>
-    {{ data.temperature }} C
-    {% endif %}
+     {% if data %}
+<div class="weather-card mx-auto">
+    <div class="weather-header">{{ data.main }}</div>
+    <div class="weather-description">{{ data.description }}</div>
+    <div class="weather-temp">{{ data.temperature }}°C</div>
+</div>
+{% endif %}
 </body>
 </html>
