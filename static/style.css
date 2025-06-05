@@ -3,8 +3,21 @@
     src: url("fonts/Region.ttf") format("truetype");
 }
 
-
-
+body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+.bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
 .title{
     font-family: 'Region', sans-serif;
     color: rgb(49, 137, 238);
