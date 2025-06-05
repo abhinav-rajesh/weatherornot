@@ -1,40 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}" />
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>WeatherOrNot</title>
 </head>
 <body>
+
+    <div class="video-container">
+        <video autoplay muted loop class="bgVideo" id="video1">
+            <source src="{{ url_for('static', filename='video/clear.mp4') }}" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        <video autoplay muted loop class="bgVideo" id="video2" style="opacity: 0;">
+            <source src="" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <h1 class="title">WeatherOrNot</h1>
     <h5 class="subtitle">Because 'Maybe' isn't a weather report</h5>
+
     <form action="/" method="POST">
-        <div class="firstformrow">   
-        <label for="cityname">City Name: </label>
-        <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name">
+        <div class="form-group"> <label for="cityname">City Name:</label>
+            <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name" />
         </div>
 
-        <div class="secondformrow">
-            <label for="statename">State Name: </label>
-            <input class="form-control form-control-lg" type="text" id="statename" name="statename" value="Kerala">
+        <div class="form-group">
+            <label for="statename">State Name:</label>
+            <input class="form-control form-control-lg" type="text" id="statename" name="statename" value="Kerala" />
         </div>
-        
-        <div  class="thirdformrow">
-            <label for="countryname">Country Name: </label>
-            <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" value="India">
+
+        <div class="form-group">
+            <label for="countryname">Country Name:</label>
+            <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" value="India" />
         </div>
-        <button class="btn btn-outline-primary">
-            Enter
-        </button>
+
+        <button class="btn btn-outline-primary">Enter</button>
     </form>
-     {% if data %}
-<div class="weather-card mx-auto">
-    <div class="weather-header">{{ data.main }}</div>
-    <div class="weather-description">{{ data.description }}</div>
-    <div class="weather-temp">{{ data.temperature }}°C</div>
-</div>
-{% endif %}
+
+    {% if data %}
+    <div class="weather-card mx-auto {{ data.main | lower | replace(' ', '-') }}">
+        <div class="weather-icon" id="weatherIcon"></div>
+        <div class="weather-header">{{ data.main }}</div>
+        <div class="weather-description">{{ data.description }}</div>
+        <div class="weather-temp">
+            {% if data.temperature is not none %} {# Check if temperature exists #}
+                {{ data.temperature }}°C
+            {% else %}
+                N/A {# Fallback if temperature is missing #}
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        // Get the main weather condition from Flask data, default to empty string
+        const weather = "{{ data.main if data else '' }}".toLowerCase();
+
+        // Map weather conditions to video file names
+        const videoMap = {
+            rain: "rain.mp4",
+            clouds: "cloud.mp4",
+            clear: "clear.mp4",
+            snow: "snow.mp4",
+            drizzle: "drizzle.mp4",
+            thunderstorm: "rain.mp4",
+            mist: "cloud.mp4",
+            haze: "clear.mp4", // Map common conditions to existing videos
+            fog: "cloud.mp4",
+            smoke: "cloud.mp4",
+            dust: "cloud.mp4",
+            sand: "cloud.mp4",
+            ash: "cloud.mp4",
+            squall: "rain.mp4",
+            tornado: "rain.mp4"
+        };
+
+        // Map weather conditions to Font Awesome icon classes
+        const iconMap = {
+            clear: "fas fa-sun",
+            clouds: "fas fa-cloud",
+            rain: "fas fa-cloud-showers-heavy",
+            drizzle: "fas fa-cloud-rain",
+            thunderstorm: "fas fa-bolt",
+            snow: "fas fa-snowflake",
+            mist: "fas fa-smog",
+            haze: "fas fa-smog",
+            fog: "fas fa-smog",
+            smoke: "fas fa-smog",
+            dust: "fas fa-smog",
+            sand: "fas fa-smog",
+            ash: "fas fa-smog",
+            squall: "fas fa-wind",
+            tornado: "fas fa-wind"
+        };
+
+        // Determine the target video and icon based on current weather data
+        const targetVideoFileName = videoMap[weather] || "clear.mp4";
+        const targetIconClass = iconMap[weather] || "fas fa-question-circle"; // Default icon for unknown conditions
+
+        const video1 = document.getElementById("video1");
+        const video2 = document.getElementById("video2");
+        const weatherIconElement = document.getElementById("weatherIcon");
+
+        // Function to smoothly transition between background videos
+        function transitionVideos(newVideoSrc) {
+            // Get the current source of video1 (which is the active video)
+            const currentVideo1Src = video1.querySelector("source").src;
+
+            // If the new video is already playing on video1, no transition needed
+            if (currentVideo1Src.includes(newVideoSrc)) {
+                return;
+            }
+
+            // Set the new video source to video2 and load it
+            video2.querySelector("source").src = newVideoSrc;
+            video2.load();
+
+            // When video2 is sufficiently buffered to play without interruption
+            video2.oncanplaythrough = () => {
+                video2.play(); // Ensure video2 starts playing
+
+                // Trigger the CSS opacity transition for crossfade
+                video2.style.opacity = 1; // Make video2 visible
+                video1.style.opacity = 0; // Hide video1
+
+                // After the transition duration, swap the videos' roles
+                // This makes video1 the active background again, ready for next transition
+                setTimeout(() => {
+                    video1.querySelector("source").src = newVideoSrc; // Update video1's source to the new video
+                    video1.load(); // Load the new video into video1
+                    video1.style.opacity = 1; // Make video1 visible
+                    video2.style.opacity = 0; // Hide video2
+                    video2.querySelector("source").src = ""; // Clear video2's source to free up resources
+                    video1.play(); // Ensure video1 is playing
+                }, 2500); // This delay should match the CSS transition duration (2.5s)
+            };
+        }
+
+        // --- Main execution logic on page load/form submission ---
+
+        // Apply icon if weather data is present
+        if (weatherIconElement && weather) {
+            weatherIconElement.className = "weather-icon " + targetIconClass;
+        }
+
+        // Handle video playback and transitions
+        if (weather) {
+            // If weather data is present, initiate transition to the appropriate video
+            transitionVideos(`/static/video/${targetVideoFileName}`);
+        } else {
+            // If no weather data (e.g., initial page load)
+            // Ensure video1 (with clear.mp4) is visible and video2 is hidden
+            video1.style.opacity = 1;
+            video2.style.opacity = 0;
+            if (!video1.playing) { // Ensure video1 is playing if it's the default
+                video1.play();
+            }
+        }
+    </script>
 </body>
 </html>
