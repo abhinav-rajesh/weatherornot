@@ -1,226 +1,193 @@
-/* Custom font definition */
 @font-face {
-    font-family: 'Region';
-    src: url("fonts/Region.ttf") format("truetype");
+  font-family: 'Region';
+  src: url("fonts/Region.ttf") format("truetype");
+  /* DEFAULT FONT DECLARE */
 }
-
-/* Basic body and HTML styling to cover viewport and prevent scroll */
 body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Hide scrollbars if content overflows */
-    height: 100%; /* Ensure full height */
-    background-color: #333; /* Fallback background color */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  background-color: #333;
+  /* FOR STYLING BASE PAGE */
 }
-
-/* Video container to hold layered videos */
 .video-container {
-    position: fixed; /* Fixed to viewport */
-    top: 0;
-    left: 0;
-    height: 100%; /* Full height of viewport */
-    width: 100%; /* Full width of viewport */
-    z-index: -1; /* Place behind all other content */
-    overflow: hidden; /* Hide anything outside */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  overflow: hidden;
+  /* FOR FULL SCREEN VIDEO */
 }
-
-/* Styling for both background video elements */
 .bgVideo {
-    position: absolute; /* Positioned within .video-container */
-    top: 0;
-    left: 0;
-    min-width: 100vw; /* Ensure it covers full viewport width */
-    min-height: 100vh; /* Ensure it covers full viewport height */
-    object-fit: cover; /* Cover the entire container, cropping if necessary */
-    transition: opacity 2.5s ease-in-out; /* Smooth opacity transition for crossfading */
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  object-fit: cover;   
+  /* COVER THE ENTIRE SCREEN */
+  transition: opacity 2.5s ease-in-out;
+  /* MAKE TRANSITION SMOOTHER */
 }
-
-/* General content positioning over video */
 body {
-    position: relative; /* Establish positioning context for children */
-    z-index: 1; /* Place above the video layer */
-    color: white; /* Default text color for elements over video */
+  position: relative;
+  z-index: 1;
+  color: white;
 }
-
-/* Ensure specific elements are above the video and have good readability */
 .title, .subtitle, label, input, .btn, .weather-card {
-    position: relative;
-    z-index: 2; /* Higher z-index for content */
+  position: relative;
+  z-index: 2;
 }
-
-/* Page Title Styling */
 .title {
-    font-family: 'Region', sans-serif;
-    font-size: 5rem;
-    color: #ffffff;
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); /* Strong shadow for readability */
-    letter-spacing: 4px;
-    text-align: center;
-    margin-top: 40px;
-    animation: fadeInDown 1s ease-in-out; /* Entrance animation */
+  font-family: 'Region', sans-serif;
+  font-size: 5rem;
+  color: #fff;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+  letter-spacing: 4px;
+  text-align: center;
+  margin-top: 40px;
+  animation: fadeInDown 1s ease-in-out;
 }
-
-/* Page Subtitle Styling */
 .subtitle {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    letter-spacing: 1px;
-    text-align: center;
-    margin-bottom: 50px;
-    animation: fadeInUp 1.2s ease-in-out; /* Entrance animation */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeInUp 1.2s ease-in-out;
 }
-
-/* Keyframe Animations */
 @keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {opacity: 0;transform: translateY(-40px);}
+  to {opacity: 1;transform: translateY(0);}
 }
-
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {opacity: 0;transform: translateY(30px);}
+  to {opacity: 1;transform: translateY(0);}
+  /* ANIMATION IN THE TITILE */
 }
-
-/* --- Form Layout & Alignment --- */
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center the entire form block horizontally */
-    margin-top: 30px; /* Adjust as needed for vertical spacing from subtitle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
 }
-
-/* New: A container for each label-input pair to ensure proper alignment */
 .form-group {
-    display: flex;
-    align-items: center; /* Vertically align label and input */
-    width: 600px; /* Consistent total width for each label-input row */
-    margin-bottom: 15px; /* Spacing between form rows */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 600px;
+  margin-bottom: 15px;
 }
-
 .form-group label {
-    font-weight: 500;
-    font-size: 20px;
-    min-width: 150px; /* Fixed width for labels to align their right edges */
-    text-align: right; /* Align label text to the right within its min-width */
-    color: white;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    padding-right: 20px; /* Space between label and input field */
+  font-weight: 500;
+  font-size: 20px;
+  min-width: 150px;
+  max-width: 150px;
+  white-space: nowrap; 
+  text-align: right;
+  color: white;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  padding-right: 20px;
 }
 
-/* Form Control (Input fields) Styling */
+
 .form-control {
-    flex-grow: 1; /* Allow input to take up remaining space in the form-group */
-    width: auto; /* Override fixed width to let flex-grow work */
-    max-width: 400px; /* Set a maximum width for inputs */
-    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border for glass effect */
-    color: white; /* White text for input */
-    text-shadow: 0 0 5px rgba(0,0,0,0.5); /* Text shadow for readability */
-    border-radius: 0.375rem; /* Bootstrap default border-radius */
-    padding: 0.375rem 0.75rem; /* Standard padding */
-    line-height: 1.5; /* Standard line-height */
+  flex-grow: 1;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  background-color: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  line-height: 1.5;
 }
-
 .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.7); /* Lighter placeholder text */
+  color: rgba(255,255,255,0.7);
+  /* INPUT PLACEHOLDER TEXT */
 }
-
 .form-control:focus {
-    background-color: rgba(255, 255, 255, 0.3); /* Slightly more opaque on focus */
-    border-color: rgba(255, 255, 255, 0.5); /* Stronger border on focus */
-    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25); /* Bootstrap-like focus glow */
-    color: white;
+  background-color: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 0.25rem rgba(255,255,255,0.25);
+  color: white;
 }
-
-/* Button Styling - make sure it's centered with the form now */
+/* BUTTON STYLING */
 .btn {
-    margin-top: 10px;
-    width: 100px;
-    /* No margin-left needed, as the form is centered by align-items: center */
-    background: rgba(255, 255, 255, 0.2); /* Glassmorphism background */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
-    color: white;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px); /* Frosted glass effect */
-    -webkit-backdrop-filter: blur(5px); /* For Safari */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    transition: all 0.3s ease; /* Smooth hover effects */
+  margin-top: 10px;
+  width: 100px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
-/* Button Hover and Active States */
 .btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    color: white;
+  background: #fff;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+  color: #000;
+  border: 1px solid #fff;
 }
 .btn:active {
-    background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,0.4);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-/* --- Weather Card Styling (Glassmorphism & Dynamic) --- */
 .weather-card {
-    /* Glassmorphism Base Styles */
-    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white default */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Soft shadow */
-    color: #fff; /* White text for weather data */
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 40px;
-    width: 300px;
-    font-family: 'Segoe UI', sans-serif;
-    transition: transform 0.3s ease, background 0.5s ease; /* Smooth transitions for hover and dynamic background color */
-    position: relative; /* Needed for any absolute positioning inside card */
-    display: flex; /* Use flexbox for vertical layout of content */
-    flex-direction: column;
-    align-items: center; /* Center items horizontally within the card */
-    gap: 10px; /* Spacing between icon, main, description, and temp */
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
+  color: #fff;
+  text-align: center;
+  padding: 20px 16px;
+  margin-top: 10px;
+  margin-bottom: 80px;
+  width: 260px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease, background 0.5s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 .weather-card:hover {
-    transform: translateY(-5px); /* Subtle lift effect on hover */
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(0,0,0,0.3);
 }
-
-/* Dynamic Background Colors for Weather Card */
-/* These classes are applied dynamically by JavaScript based on weather.main */
-.weather-card.clear {
-    background: rgba(135, 206, 235, 0.3); /* Sky Blue for clear */
-}
-.weather-card.clear-sky { /* For "Clear Sky" if that's returned by API */
-    background: rgba(135, 206, 235, 0.3);
+.weather-card.clear,
+.weather-card.clear-sky {
+  background: rgba(135,206,235,0.3);
 }
 .weather-card.clouds {
-    background: rgba(169, 169, 169, 0.3); /* Gray for clouds */
+  background: rgba(169,169,169,0.3);
 }
 .weather-card.rain {
-    background: rgba(100, 149, 237, 0.3); /* Cornflower Blue for rain */
+  background: rgba(100,149,237,0.3);
 }
 .weather-card.snow {
-    background: rgba(240, 248, 255, 0.3); /* Alice Blue for snow */
+  background: rgba(240,248,255,0.3);
 }
 .weather-card.drizzle {
-    background: rgba(173, 216, 230, 0.3); /* Light Blue for drizzle */
+  background: rgba(173,216,230,0.3);
 }
 .weather-card.thunderstorm {
-    background: rgba(105, 105, 105, 0.3); /* Dim Gray for thunderstorm */
+  background: rgba(105,105,105,0.3);
 }
 .weather-card.mist,
 .weather-card.haze,
@@ -229,44 +196,32 @@ form {
 .weather-card.dust,
 .weather-card.sand,
 .weather-card.ash {
-    background: rgba(180, 180, 180, 0.3); /* Muted gray for atmospheric conditions */
+  background: rgba(180,180,180,0.3);
 }
 .weather-card.squall,
 .weather-card.tornado {
-    background: rgba(90, 90, 90, 0.3); /* Darker gray for severe conditions */
+  background: rgba(90,90,90,0.3);
 }
-
-
-/* Weather Icon Styling */
+/* WEATHER CONTENT STYLING */
 .weather-icon {
-    font-size: 4em; /* Large icon size */
-    margin-bottom: 5px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Shadow for icon readability */
+  font-size: 4em;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
-
-/* Individual Weather Data Elements Styling */
 .weather-header {
-    font-size: 2.2em; /* Main weather condition text size */
-    font-weight: bold;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    margin-bottom: 5px;
+  font-size: 2.2em;
+  font-weight: bold;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  margin-bottom: 5px;
 }
-
 .weather-description {
-    font-size: 1.2em;
-    text-transform: capitalize; /* Capitalize first letter */
-    text-shadow: 0 1px 5px rgba(0,0,0,0.7);
-    margin-bottom: 10px;
+  font-size: 1.2em;
+  text-transform: capitalize;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+  margin-bottom: 10px;
 }
-
 .weather-temp {
-    font-size: 2.5em; /* Temperature text size */
-    font-weight: 600;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-}
-
-/* Center the weather card horizontally */
-.weather-card {
-    margin-left: auto;
-    margin-right: auto;
+  font-size: 2.5em;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }

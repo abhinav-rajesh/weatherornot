@@ -26,17 +26,20 @@
 
     <form action="/" method="POST">
         <div class="form-group"> <label for="cityname">City Name:</label>
-            <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name" />
+            <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name"
+            value="{{city or '' }}" />
         </div>
 
         <div class="form-group">
             <label for="statename">State Name:</label>
-            <input class="form-control form-control-lg" type="text" id="statename" name="statename" placeholder="Enter State Name"/>
+            <input class="form-control form-control-lg" type="text" id="statename" name="statename" placeholder="Enter State Name"
+            value="{{state or ''}}" />
         </div>
 
         <div class="form-group">
             <label for="countryname">Country Name:</label>
-            <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" placeholder="Enter Country Name"/>
+            <input class="form-control form-control-lg" type="text" id="countryname" name="countryname" placeholder="Enter Country Name"
+             value="{{ country or '' }}" />
         </div>
 
         <button class="btn btn-outline-primary">Enter</button>
