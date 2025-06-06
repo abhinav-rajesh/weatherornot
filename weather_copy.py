@@ -6,6 +6,7 @@ from dataclasses import dataclass
 #to get API key from .env directly
 load_dotenv()
 apikey = os.getenv("API_KEY")
+apikey2 = os.getenv("API_KEY2")
 
 #to create a structure- like in C
 @dataclass
@@ -38,9 +39,11 @@ def currentweather(latitude, longitude, API_key):
     )
 
 def main(cityname, statename, countryname):
-    cityname="Kochi"
-    statename="Kerala"
-    countryname="India"
+    #making global copies to pass to forecast
+    global cityname_copy,statename_copy
+    cityname_copy=cityname
+    statename_copy=statename
+
     latitude,longitude = getdetails(cityname,statename,countryname,apikey)
     currentweatherdata=currentweather(latitude,longitude,apikey)
     print(currentweatherdata)
@@ -54,9 +57,16 @@ def main(cityname, statename, countryname):
 
 from datetime import datetime, timedelta
 
+#fakecall function
+main("Kochi","Kerala","India")
 
-currentdate=datetime.today().strftime("%d-%m-%Y")  #fetches todays current date-month-year
-beforedate=(datetime.today()-timedelta(days=30)).strftime("%d-%m-%Y") #calculates the date 30 days before today
-print(currentdate)
-print(beforedate)
-#url=f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{start_date}/{end_date}"
+end_date=datetime.today().strftime("%d-%m-%Y")  #fetches todays current date-month-year
+start_sate=(datetime.today()-timedelta(days=30)).strftime("%d-%m-%Y") #calculates the date 30 days before today
+location=cityname_copy+","+statename_copy
+print(location)
+print(start_sate)
+print(end_date)
+
+#fetching updated historical data using Visual Crossing
+url=f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{start_date}/{end_date}"
+reqparameters={"unitGroup": "metric","include":"hours"}
