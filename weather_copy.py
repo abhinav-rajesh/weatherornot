@@ -52,6 +52,7 @@ def main(cityname, statename, countryname):
 
 from datetime import datetime, timedelta
 import pandas as pd
+import numpy as np
 
 #fakecall function
 main("Kochi","Kerala","India")
@@ -76,12 +77,28 @@ response.raise_for_status()                     #to check if data has been retur
 data=response.json()                    #setting up return value as data
 
 
-#Setting up data for each over from data recieved
-datahours=[]
-for day in data["days"]:
-    for hours in data["hours"]:
-        hours["datetime"]=f"{day['datetime']} {hours['datetime']}"
-        datahours.append(hours)
+#Setting up data recieved as DataFrames
+df=pd.DataFrame({"datetime":data["hourly"]["time"],
+                 "temp":data["hourly"]["temperature_2m"],
+                "precip":data["hourly"]["precipitation"],
+                "cloudcover":data["hourly"]["cloudcover"],
+                "weathercode":data["hourly"]["weathercode"]})
 
-df=pd.DataFrame(datahours)
-print(df)
+# to converts the string of datetime that is fetched to actual datetime64 bits for computation
+df["datetime"]=pd.to_datetime(df["datetime"]) 
+
+#to map the weathercode to weathercondition- human values
+snow_mask = df["weathercode"].isin([71, 73, 75, 77])
+fog_mask = df["weathercode"].isin([45, 48])
+thunderstorm_mask = df["weathercode"].isin([95, 96, 99])
+rain_mask = df["precip"] > 0.2
+cloudy_mask = df["cloudcover"] > 70
+clear_mask = df["cloudcover"] < 30
+
+# Use np.select with conditions and corresponding labels
+conditions = [snow_mask, fog_mask, thunderstorm_mask, rain_mask, cloudy_mask, clear_mask]
+choices = ["Snow", "Fog", "Thunderstorm", "Rainy", "Cloudy", "Clear"]
+
+#will compare and find suitable weather condition
+df["condition"] = np.select(conditions, choices, default="Partly Cloudy")
+
