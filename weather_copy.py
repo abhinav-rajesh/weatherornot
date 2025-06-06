@@ -60,13 +60,21 @@ from datetime import datetime, timedelta
 #fakecall function
 main("Kochi","Kerala","India")
 
-end_date=datetime.today().strftime("%d-%m-%Y")  #fetches todays current date-month-year
-start_sate=(datetime.today()-timedelta(days=30)).strftime("%d-%m-%Y") #calculates the date 30 days before today
-location=cityname_copy+","+statename_copy
+end_date=datetime.today().strftime("%Y-%m-%d")  #fetches todays current date-month-year
+start_date=(datetime.today()-timedelta(days=30)).strftime("%Y-%m-%d") #calculates the date 30 days before today
+location=cityname_copy+","+statename_copy 
 print(location)
-print(start_sate)
+print(start_date)
 print(end_date)
 
 #fetching updated historical data using Visual Crossing
-url=f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{start_date}/{end_date}"
-reqparameters={"unitGroup": "metric","include":"hours"}
+reqparameters={"unitGroup": "metric","include":"hours","key":apikey2,"contentType":"json"}     #we need the data based on these conditions
+#fetching data from API
+response=requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{start_date}/{end_date}",
+                      params=reqparameters)             
+response.raise_for_status()                     #to check if data has been returned, else will raise an exception automatically
+data=response.json()                    #setting up return value as data
+
+print(data)
+#Setting up data for each over from data recieved
+datahours=[]
