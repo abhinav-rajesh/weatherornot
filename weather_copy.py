@@ -57,12 +57,13 @@ import numpy as np
 #fakecall function
 main("Kochi","Kerala","India")
 
-end_date=datetime.today().strftime("%Y-%m-%d")  #fetches todays current date-month-year
+end_date=(datetime.today()-timedelta(days=1)).strftime("%Y-%m-%d")  #fetches todays current date-month-year
 start_date=(datetime.today()-timedelta(days=30)).strftime("%Y-%m-%d") #calculates the date 30 days before today
 print(start_date)
 print(end_date)
 
 #fetching updated historical data using Open Meteo
+url="https://archive-api.open-meteo.com/v1/archive"
 reqparameters={
     "latitude":latitude,
     "longitude":longitude,
@@ -72,7 +73,7 @@ reqparameters={
     "timezone":"auto"}     #we need the data based on these conditions
 
 #fetching data from SOURCE
-response=requests.get("https://archive-api.open-meteo.com/v1/archive",params=reqparameters)             
+response=requests.get(url,params=reqparameters)             
 response.raise_for_status()                     #to check if data has been returned, else will raise an exception automatically
 data=response.json()                    #setting up return value as data
 
@@ -101,4 +102,5 @@ choices = ["Snow", "Fog", "Thunderstorm", "Rainy", "Cloudy", "Clear"]
 
 #will compare and find suitable weather condition
 df["condition"] = np.select(conditions, choices, default="Partly Cloudy")
+print(df.head(10))
 
