@@ -147,3 +147,38 @@ def modeltraining():
     joblib.dump(regression, "temperature_model.pkl")
     joblib.dump(classifier, "condition_model.pkl")
 
+def weatherforecast():
+    regression=joblib.load("temperature_model.pkl")
+    classifier=joblib.load("condition_model.pkl")
+
+    end_date=datetime.today().strftime("%Y-%m-%d")  #fetches todays current date-month-year
+    start_date=(datetime.today()+timedelta(days=1)).strftime("%Y-%m-%d") #gets tomorrows data
+
+    reqparameters={
+        "latitude":latitude,
+        "longitude":longitude,
+        "start_date":start_date,
+        "end_date":end_date,
+        "hourly": "precipitation,cloudcover,weathercode",
+        "timezone":"auto"}     #we need the data based on these conditions
+    
+    response=requests.get("https://api.open-meteo.com/v1/forecast",params=reqparameters)             
+    response.raise_for_status()                     #to check if data has been returned, else will raise an exception automatically
+    data=response.json()                    #setting up return value as data
+
+    #Setting up data recieved as DataFrames
+    forecastdf=pd.DataFrame({"datetime":data["hourly"]["time"],
+                    "precip":data["hourly"]["precipitation"],
+                    "cloudcover":data["hourly"]["cloudcover"],
+                    "weathercode":data["hourly"]["weathercode"]})
+
+    # to converts the string of datetime that is fetched to actual datetime64 bits for computation
+    forecastdf["datetime"]=pd.to_datetime(forecastdf["datetime"]) 
+    #remove null values
+    forecastdf=forecastdf.dropna(subset=["precip","cloudcover","weathercode"])
+
+    forecastX=forecastdf[["precip","cloudcover","weathercode"]]
+
+    temperatureprediction=regression.predict(forecastX)
+    conditionprediction=classifier.predict(forecastX)
+
