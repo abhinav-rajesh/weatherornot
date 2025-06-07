@@ -9,7 +9,6 @@
     <title>WeatherOrNot</title>
 </head>
 <body>
-
     <div class="video-container">
         <video autoplay muted loop class="bgVideo" id="video1">
             <source src="{{ url_for('static', filename='video/clear.mp4') }}" type="video/mp4" />
@@ -23,7 +22,7 @@
 
     <h1 class="title">WeatherOrNot</h1>
     <h5 class="subtitle">Because 'Maybe' isn't a weather report</h5>
-
+    <p>DataFrame: {{df|safe}}</p>
     <form action="/" method="POST">
         <div class="form-group"> <label for="cityname">City Name:</label>
             <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name"
