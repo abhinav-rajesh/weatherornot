@@ -63,7 +63,6 @@ print(start_date)
 print(end_date)
 
 #fetching updated historical data using Open Meteo
-url="https://archive-api.open-meteo.com/v1/archive"
 reqparameters={
     "latitude":latitude,
     "longitude":longitude,
@@ -73,7 +72,7 @@ reqparameters={
     "timezone":"auto"}     #we need the data based on these conditions
 
 #fetching data from SOURCE
-response=requests.get(url,params=reqparameters)             
+response=requests.get("https://archive-api.open-meteo.com/v1/archive",params=reqparameters)             
 response.raise_for_status()                     #to check if data has been returned, else will raise an exception automatically
 data=response.json()                    #setting up return value as data
 
@@ -104,3 +103,9 @@ choices = ["Snow", "Fog", "Thunderstorm", "Rainy", "Cloudy", "Clear"]
 df["condition"] = np.select(conditions, choices, default="Partly Cloudy")
 print(df.head(10))
 
+#MACHNINE LEARNING
+
+y_temperature=df["temp"]                #target to find using regression
+y_condition=df["condition"]             #target to find using classification
+x=df[["precip","cloudcover","weathercode"]]     #analysis dataframe
+print(x.head())
