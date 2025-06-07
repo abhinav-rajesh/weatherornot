@@ -151,8 +151,9 @@ def weatherforecast():
     regression=joblib.load("temperature_model.pkl")
     classifier=joblib.load("condition_model.pkl")
 
-    end_date=datetime.today().strftime("%Y-%m-%d")  #fetches todays current date-month-year
-    start_date=(datetime.today()+timedelta(days=1)).strftime("%Y-%m-%d") #gets tomorrows data
+    #switch start and end data from prev function - as for future start is today and end is day+1
+    start_date=datetime.today().strftime("%Y-%m-%d")  
+    end_date=(datetime.today()+timedelta(days=1)).strftime("%Y-%m-%d")
 
     reqparameters={
         "latitude":latitude,
@@ -177,8 +178,16 @@ def weatherforecast():
     #remove null values
     forecastdf=forecastdf.dropna(subset=["precip","cloudcover","weathercode"])
 
+    currentime=datetime.now()
+    forecastdf=forecastdf[forecastdf["datetime"]>=currentime]
     forecastX=forecastdf[["precip","cloudcover","weathercode"]]
 
     temperatureprediction=regression.predict(forecastX)
     conditionprediction=classifier.predict(forecastX)
+    forecastdf["predictedtemperature"]=temperatureprediction
+    forecastdf["predictedcondition"]=conditionprediction
+    print("---------------PREDICTIONS---------------")
+    print(forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5))
 
+modeltraining()
+weatherforecast()
