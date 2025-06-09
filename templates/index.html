@@ -59,6 +59,52 @@
     </div>
     {% endif %}
 
+   {% if forecast_data %}
+     <h2 class="forecast-hover-heading">Hourly Forecast</h2>
+        <div class="row justify-content-center mt-4">
+            {% for item in forecast_data %}
+            <div class="col-md-2 m-2">
+               <div class="preweather-card text-center">
+    <p><strong>{{ item.datetime.strftime('%H:%M') }}</strong></p>
+    
+    <div class="forecast-icon">
+        {% set cond = item.predictedcondition.lower() %}
+        {% if 'rain' in cond %}
+            <i class="fas fa-cloud-showers-heavy"></i>
+        {% elif 'cloud' in cond %}
+            <i class="fas fa-cloud"></i>
+        {% elif 'clear' in cond %}
+            <i class="fas fa-sun"></i>
+        {% elif 'snow' in cond %}
+            <i class="fas fa-snowflake"></i>
+        {% elif 'drizzle' in cond %}
+            <i class="fas fa-cloud-rain"></i>
+        {% elif 'thunderstorm' in cond %}
+            <i class="fas fa-bolt"></i>
+        {% elif 'mist' in cond or 'fog' in cond or 'haze' in cond or 'smoke' in cond or 'dust' in cond or 'sand' in cond or 'ash' in cond %}
+            <i class="fas fa-smog"></i>
+        {% elif 'squall' in cond or 'tornado' in cond %}
+            <i class="fas fa-wind"></i>
+        {% else %}
+            <i class="fas fa-question-circle"></i>
+        {% endif %}
+    </div>
+    
+    <p>{{ item.predictedcondition }}</p>
+    <p>{{ item.predictedtemperature|round }}°C</p>
+</div>
+>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+    
+
     <script>
     //understand weather from flask
     const weather = "{{ data.main if data else '' }}".toLowerCase();
