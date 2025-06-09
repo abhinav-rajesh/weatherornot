@@ -239,7 +239,7 @@ form {
 }
 
 .preweather-card {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(8px);
   border-radius: 20px;
   padding: 20px;
@@ -247,7 +247,7 @@ form {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 .forecast-hover-heading {
-  font-size: 2.2rem;
+  font-size: 1.5em;
   font-weight: 700;
   text-align: center;
   margin-bottom: 30px;

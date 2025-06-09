@@ -22,7 +22,6 @@
 
     <h1 class="title">WeatherOrNot</h1>
     <h5 class="subtitle">Because 'Maybe' isn't a weather report</h5>
-    <p>DataFrame: {{df|safe}}</p>
     <form action="/" method="POST">
         <div class="form-group"> <label for="cityname">City Name:</label>
             <input class="form-control form-control-lg" type="text" id="cityname" name="cityname" placeholder="Enter City Name"
@@ -65,35 +64,37 @@
             {% for item in forecast_data %}
             <div class="col-md-2 m-2">
                <div class="preweather-card text-center">
-    <p><strong>{{ item.datetime.strftime('%H:%M') }}</strong></p>
+  <p style="font-size: 1.5em;"><strong>{{ item.datetime.strftime('%H:%M') }}</strong></p>
+
     
     <div class="forecast-icon">
         {% set cond = item.predictedcondition.lower() %}
         {% if 'rain' in cond %}
-            <i class="fas fa-cloud-showers-heavy"></i>
+            <i class="fas fa-cloud-showers-heavy fa-3x"></i> 
         {% elif 'cloud' in cond %}
-            <i class="fas fa-cloud"></i>
+            <i class="fas fa-cloud fa-3x"></i>
         {% elif 'clear' in cond %}
-            <i class="fas fa-sun"></i>
+            <i class="fas fa-sun fa-3x"></i>
         {% elif 'snow' in cond %}
-            <i class="fas fa-snowflake"></i>
+            <i class="fas fa-snowflake fa-3x"></i>
         {% elif 'drizzle' in cond %}
-            <i class="fas fa-cloud-rain"></i>
+            <i class="fas fa-cloud-rain fa-3x"></i>
         {% elif 'thunderstorm' in cond %}
             <i class="fas fa-bolt"></i>
         {% elif 'mist' in cond or 'fog' in cond or 'haze' in cond or 'smoke' in cond or 'dust' in cond or 'sand' in cond or 'ash' in cond %}
             <i class="fas fa-smog"></i>
         {% elif 'squall' in cond or 'tornado' in cond %}
-            <i class="fas fa-wind"></i>
+            <i class="fas fa-wind "></i>
         {% else %}
             <i class="fas fa-question-circle"></i>
         {% endif %}
     </div>
     
     <p>{{ item.predictedcondition }}</p>
-    <p>{{ item.predictedtemperature|round }}°C</p>
+    <p style="font-size: 1.3rem;">{{ item.predictedtemperature|round }}°C</p>
+
 </div>
->
+
             </div>
             {% endfor %}
         </div>
