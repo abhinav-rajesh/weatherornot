@@ -1,29 +1,30 @@
 from flask import Flask, render_template, request
 from weather import main as get_weather
-import pandas as pd
+
 
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     data = None     # Initialize data to None for the initial GET request
-    htmldf = None
+    forecast_data = []
     cityname= ""
     statename= ""
     countryname= ""    #it is used to hold the values 
     if request.method == "POST":
         # Get data from the form submission
-        cityname = request.form["cityname"]
-        statename = request.form["statename"]
-        countryname = request.form["countryname"]
+        cityname = request.form.get("cityname", "")
+        statename = request.form.get("statename", "")
+        countryname = request.form.get("countryname", "")
         data,df=get_weather(cityname, statename, countryname)
-        htmldf=df.to_html()
-        print(f"Weather Data Received for {cityname}, {statename}, {countryname}: {data}")
+        if df is not None:
+            forecast_data = df.to_dict(orient='records')
+        
         # Make sure 'temperature' key exists and has a numeric value for display.
     
 
     # Render the template, passing the weather data if available (with the city, state, and country names so the value will not change) 
-    return render_template("index.html", data=data,city=cityname, state=statename, country=countryname,df=htmldf)
+    return render_template("index.html", data=data,city=cityname, forecast_data=forecast_data, state=statename, country=countryname)
 
 if __name__ == "__main__":
 
