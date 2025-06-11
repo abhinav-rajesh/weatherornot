@@ -130,12 +130,11 @@ FontAwesome
 scikit-learn
 
 
-## 💡 Future Enhancements
-🌐 Add geolocation-based automatic weather fetch
-
-🗺️ Add map visualization using Leaflet or Mapbox
-
-📊 Include graphical temperature trend charts
-
-🧠 Improve model efficiency by caching trained models
+##  Future Enhancements
+- Add geolocation-based automatic weather fetch
+- Add map visualization using Leaflet or Mapbox
+- Include graphical temperature trend charts
+- Improve model efficiency by caching trained models
+- Currently displays weather forecast based on **Indian Standard Time (IST)** for all locations
+- Future update will include **region-based local time support**
 
