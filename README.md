@@ -1,23 +1,24 @@
+
 # 🌤️ WeatherOrNot - A Smart Weather Forecast Web App
 
 **WeatherOrNot** is a modern web application built with Flask that not only fetches **real-time weather data** for any location using the OpenWeatherMap API but also **predicts the hourly forecast** using a machine learning model trained on historical weather data from Open-Meteo.
 
-> 🧠 “Because 'Maybe' isn't a weather report.”
+>  “Because 'Maybe' isn't a weather report.”
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🔎 Search weather by **city, state, and country**
-- 📍 Fetches **current temperature, weather type, and description**
-- 🎥 Dynamic video backgrounds based on live weather
-- ⏳ Predicts **hourly weather forecast** using:
-  - 💡 Machine Learning (Random Forest Regressor & Classifier)
-  - 📈 30-day historical weather data
-- 🌐 Real-time API integrations with:
-  - OpenWeatherMap for current weather
-  - Open-Meteo for historical + hourly forecast data
-- 📱 Clean, responsive Bootstrap-based UI with FontAwesome icons
+-  Search weather by **city, state, and country**
+-  Fetches **current temperature, weather type, and description**
+-  Dynamic video backgrounds based on live weather
+-  Predicts **hourly weather forecast** using:
+-  Machine Learning (Random Forest Regressor & Classifier)
+-  30-day historical weather data
+-  Real-time API integrations with:
+- OpenWeatherMap for current weather
+ - Open-Meteo for historical + hourly forecast data
+-  Clean, responsive Bootstrap-based UI with FontAwesome icons
 
 ---
 
@@ -32,12 +33,15 @@
 ---
 
 ## 🖼️ Screenshots
+![image](https://github.com/user-attachments/assets/b6c4e9c4-6a97-4d69-b2c5-206b47d13116)
+![image](https://github.com/user-attachments/assets/d4dac7c0-abd7-4a2a-a73a-bd7a83986c47)
+![image](https://github.com/user-attachments/assets/78dadefc-800a-4994-b30e-9e5b45d13154)
+![image](https://github.com/user-attachments/assets/cf259d07-7871-43c4-be86-1b0deafceb2d)
+![video](https://github.com/user-attachments/assets/a866aa01-be31-44d7-a9bf-8308b158430f0)
 
-> *(Add screenshots here by uploading to your repo and using `![desc](path)` markdown syntax)*
 
----
 
-## 🧠 How It Works
+##  How It Works
 
 1. **User Input**: Enter city, state, and country.
 2. **Current Weather**: Fetches geolocation using OpenWeatherMap’s geo API, then gets current weather.
@@ -90,7 +94,7 @@ weatherornot/
 └── requirements.txt          # Python dependencies
 
 ```
-📈 Machine Learning Details
+ Machine Learning Details
 Trains two models using Random Forest:
 
 RandomForestRegressor for temperature
@@ -104,7 +108,7 @@ Model is retrained for every new location to ensure accuracy
 Output: Top 5 hourly forecasts with condition and temperature
 
 
-## 🙋‍♂️ Author
+##  Author
  Sreeram v g | Abhinav Rajesh
 
 👨‍💻 Full Stack Developer | ML Enthusiast
@@ -112,7 +116,7 @@ Output: Top 5 hourly forecasts with condition and temperature
 🔗https://github.com/SR-005 |🔗https://github.com/abhinav-rajesh
 
 
-## 🙌 Acknowledgements
+##  Acknowledgements
 OpenWeatherMap
 
 Open-Meteo
