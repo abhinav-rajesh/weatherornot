@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠️ Built With
+## Built With
 
 - **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5, FontAwesome
 - **Backend**: Python 3, Flask
@@ -113,7 +113,7 @@ Output: Top 5 hourly forecasts with condition and temperature
 ##  Author
  Sreeram v g | Abhinav Rajesh
 
-👨‍💻 Full Stack Developer | ML Enthusiast
+Full Stack Developer | ML Enthusiast
 
 🔗https://github.com/SR-005 |🔗https://github.com/abhinav-rajesh
 
@@ -130,12 +130,11 @@ FontAwesome
 scikit-learn
 
 
-## 💡 Future Enhancements
-🌐 Add geolocation-based automatic weather fetch
-
-🗺️ Add map visualization using Leaflet or Mapbox
-
-📊 Include graphical temperature trend charts
-
-🧠 Improve model efficiency by caching trained models
+##  Future Enhancements
+- Add geolocation-based automatic weather fetch
+- Add map visualization using Leaflet or Mapbox
+- Include graphical temperature trend charts
+- Improve model efficiency by caching trained models
+- Currently displays weather forecast based on **Indian Standard Time (IST)** for all locations
+- Future update will include **region-based local time support**
 
