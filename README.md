@@ -1,5 +1,5 @@
 
-# 🌤️ WeatherOrNot - A Smart Weather Forecast Web App
+# 🌤️ WeatherOrNot 
 
 **WeatherOrNot** is a modern web application built with Flask that not only fetches **real-time weather data** for any location using the OpenWeatherMap API but also **predicts the hourly forecast** using a machine learning model trained on historical weather data from Open-Meteo.
 
