@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠️ Built With
+## Built With
 
 - **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5, FontAwesome
 - **Backend**: Python 3, Flask
@@ -113,7 +113,7 @@ Output: Top 5 hourly forecasts with condition and temperature
 ##  Author
  Sreeram v g | Abhinav Rajesh
 
-👨‍💻 Full Stack Developer | ML Enthusiast
+Full Stack Developer | ML Enthusiast
 
 🔗https://github.com/SR-005 |🔗https://github.com/abhinav-rajesh
 
