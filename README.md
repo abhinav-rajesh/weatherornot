@@ -13,11 +13,8 @@
 -  Fetches **current temperature, weather type, and description**
 -  Dynamic video backgrounds based on live weather
 -  Predicts **hourly weather forecast** using:
--  Machine Learning (Random Forest Regressor & Classifier)
--  30-day historical weather data
+-  Trained day with 30-day historical weather data
 -  Real-time API integrations with:
-- OpenWeatherMap for current weather
- - Open-Meteo for historical + hourly forecast data
 -  Clean, responsive Bootstrap-based UI with FontAwesome icons
 
 ---
@@ -107,11 +104,11 @@ Data Source: Open-Meteo archive API
 
 Model is retrained for every new location to ensure accuracy
 
-Output: Top 5 hourly forecasts with condition and temperature
+Output: Next 5 hourly forecasts with condition and temperature
 
 
 ##  Author
- Sreeram v g | Abhinav Rajesh
+ Sreeram V Gopal | Abhinav Rajesh
 
 Full Stack Developer | ML Enthusiast
 
