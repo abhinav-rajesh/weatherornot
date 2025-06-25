@@ -191,5 +191,5 @@ def main(cityname, statename, countryname):
     print(df)
     return currentweatherdata,df
 
-#fakecall function
-main("Kochi","Kerala","India")
+'''#fakecall function
+main("Kochi","Kerala","India")'''
