@@ -2,6 +2,7 @@ import requests  #to put requests to API
 from dotenv import load_dotenv
 import os
 from dataclasses import dataclass
+import matplotlib.pyplot as plt
 
 #to get API key from .env directly
 load_dotenv()
@@ -179,7 +180,28 @@ def weatherforecast():
     forecastdf["predictedcondition"]=conditionprediction
     '''print("---------------PREDICTIONS---------------")'''
     '''print(forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5))'''
-    return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5)
+
+    # Predictions
+    forecastdf["predictedtemperature"] = regression.predict(forecastX)
+    forecastdf["predictedcondition"] = classifier.predict(forecastX)
+
+    # Plot forecasted temperature
+    plt.figure(figsize=(10, 5))
+    plt.plot(forecastdf["datetime"], forecastdf["predictedtemperature"],
+             marker='o', linestyle='-', color='tab:blue')
+    plt.title("Forecasted Temperature for Next 24 Hours")
+    plt.xlabel("Datetime")
+    plt.ylabel("Predicted Temperature (°C)")
+    plt.xticks(rotation=45)
+    plt.grid(True)
+    plt.tight_layout()
+
+    # Save to static folder
+    plot_path = os.path.join("static", "forecast_temp.png")
+    plt.savefig(plot_path)
+    plt.close()
+
+    return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5),"forecast_temp.png"
 
 
 def main(cityname, statename, countryname):
