@@ -190,11 +190,11 @@ def weatherforecast():
                 marker='o', linestyle='-', color='tab:blue')
 
         # Styling
-        ax.set_title("Forecasted Temperature (Next 24 Hours)", fontsize=16, color='black')
-        ax.set_xlabel("Datetime", fontsize=12, color='black')
-        ax.set_ylabel("Temperature (°C)", fontsize=12, color='black')
-        ax.tick_params(axis='x', rotation=45, labelsize=10, colors='black')
-        ax.tick_params(axis='y', labelsize=10, colors='black')
+        ax.set_title("Forecasted Temperature (Next 24 Hours)", fontsize=16, color='white')
+        ax.set_xlabel("Datetime", fontsize=12, color='white')
+        ax.set_ylabel("Temperature (°C)", fontsize=12, color='white')
+        ax.tick_params(axis='x', rotation=45, labelsize=10, colors='white')
+        ax.tick_params(axis='y', labelsize=10, colors='white')
 
         # Remove grid and spines for cleaner look
         ax.grid(False)
