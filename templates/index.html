@@ -101,10 +101,12 @@
         {% endif %}
     </div>
 
+    {% if plot_img %}
     <div class="my-4 text-center">
-    <h3>Forecasted Temperature</h3>
-    <img src="{{ url_for('static', filename=plot_img) }}" class="img-fluid rounded shadow" alt="Forecast Temperature Graph" style="max-width: 100%; height: auto;">
-</div>
+        <h3>Forecasted Temperature</h3>
+        <img src="{{ url_for('static', filename=plot_img) }}" class="img-fluid rounded shadow" alt="Forecast Temperature Graph" style="max-width: 100%; height: auto;">
+    </div>
+    {% endif %}
 </body>
 </html>
 
