@@ -187,6 +187,8 @@ def weatherforecast():
 
     # Plot forecasted temperature
     plt.figure(figsize=(10, 5))
+    fig = plt.gcf()
+    fig.patch.set_alpha(0.0)
     plt.plot(forecastdf["datetime"], forecastdf["predictedtemperature"],
              marker='o', linestyle='-', color='tab:blue')
     plt.title("Forecasted Temperature for Next 24 Hours")
@@ -198,7 +200,7 @@ def weatherforecast():
 
     # Save to static folder
     plot_path = os.path.join("static", "forecast_temp.png")
-    plt.savefig(plot_path, transparent=True)
+    plt.savefig(plot_path, transparent=True, facecolor='none')
     plt.close()
 
     return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5),"forecast_temp.png"

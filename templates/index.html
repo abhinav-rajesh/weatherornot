@@ -103,13 +103,13 @@
 
     {% if plot_img %}
     <div class="container my-5">
-        <div class="card shadow border-0">
-            <div class="card-body text-center">
+        <div class="card shadow border-0" style="background: none;">
+            <div class="card-body text-center" style="background: none;">
                 <h4 class="card-title mb-4">Forecasted Temperature (Next 24 Hours)</h4>
                 <img src="{{ url_for('static', filename=plot_img) }}" 
-                    class="img-fluid rounded border" 
+                    class="img-fluid rounded" 
                     alt="Forecast Temperature Graph"
-                    style="max-width: 100%; height: auto;">
+                    style="max-width: 100%; height: auto; background: none;">
             </div>
         </div>
     </div>
