@@ -208,10 +208,10 @@ def main(cityname, statename, countryname):
     latitude,longitude = getdetails(cityname,statename,countryname,apikey)
     currentweatherdata=currentweather(latitude,longitude,apikey)
     modeltraining()
-    df=weatherforecast()
+    df,plot_file=weatherforecast()
     print(currentweatherdata)
     print(df)
-    return currentweatherdata,df
+    return currentweatherdata,df,plot_file
 
 '''#fakecall function
 main("Kochi","Kerala","India")'''
