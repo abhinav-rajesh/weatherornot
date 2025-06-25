@@ -7,6 +7,7 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
     data = None     # Initialize data to None for the initial GET request
+    plot_file=None
     forecast_data = []
     cityname= ""
     statename= ""
@@ -16,7 +17,7 @@ def index():
         cityname = request.form.get("cityname", "")
         statename = request.form.get("statename", "")
         countryname = request.form.get("countryname", "")
-        data,df=get_weather(cityname, statename, countryname)
+        data,df,plot_file=get_weather(cityname, statename, countryname)
         if df is not None:
             forecast_data = df.to_dict(orient='records')
         
@@ -24,7 +25,7 @@ def index():
     
 
     # Render the template, passing the weather data if available (with the city, state, and country names so the value will not change) 
-    return render_template("index.html", data=data,city=cityname, forecast_data=forecast_data, state=statename, country=countryname)
+    return render_template("index.html", data=data,city=cityname, forecast_data=forecast_data, state=statename, country=countryname,plot_img=plot_file)
 
 if __name__ == "__main__":
 
