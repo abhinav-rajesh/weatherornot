@@ -198,7 +198,7 @@ def weatherforecast():
 
     # Save to static folder
     plot_path = os.path.join("static", "forecast_temp.png")
-    plt.savefig(plot_path)
+    plt.savefig(plot_path, transparent=True)
     plt.close()
 
     return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5),"forecast_temp.png"
