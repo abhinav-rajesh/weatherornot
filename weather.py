@@ -181,27 +181,32 @@ def weatherforecast():
     '''print("---------------PREDICTIONS---------------")'''
     '''print(forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5))'''
 
-    # Predictions
-    forecastdf["predictedtemperature"] = regression.predict(forecastX)
-    forecastdf["predictedcondition"] = classifier.predict(forecastX)
+    def plot_forecast_graph(forecastdf, output_path="static/forecast_temp.png"):
+        fig, ax = plt.subplots(figsize=(12, 4))  # Wider and shorter graph
+        fig.patch.set_alpha(0.0)  # Make entire figure background transparent
 
-    # Plot forecasted temperature
-    plt.figure(figsize=(10, 5))
-    fig = plt.gcf()
-    fig.patch.set_alpha(0.0)
-    plt.plot(forecastdf["datetime"], forecastdf["predictedtemperature"],
-             marker='o', linestyle='-', color='tab:blue')
-    plt.title("Forecasted Temperature for Next 24 Hours")
-    plt.xlabel("Datetime")
-    plt.ylabel("Predicted Temperature (°C)")
-    plt.xticks(rotation=45)
-    plt.grid(True)
-    plt.tight_layout()
+        # Plot the forecasted temperature
+        ax.plot(forecastdf["datetime"], forecastdf["predictedtemperature"],
+                marker='o', linestyle='-', color='tab:blue')
 
-    # Save to static folder
-    plot_path = os.path.join("static", "forecast_temp.png")
-    plt.savefig(plot_path, transparent=True, facecolor='none')
-    plt.close()
+        # Styling
+        ax.set_title("Forecasted Temperature (Next 24 Hours)", fontsize=16, color='black')
+        ax.set_xlabel("Datetime", fontsize=12, color='black')
+        ax.set_ylabel("Temperature (°C)", fontsize=12, color='black')
+        ax.tick_params(axis='x', rotation=45, labelsize=10, colors='black')
+        ax.tick_params(axis='y', labelsize=10, colors='black')
+
+        # Remove grid and spines for cleaner look
+        ax.grid(False)
+        for spine in ax.spines.values():
+            spine.set_visible(False)
+
+        plt.tight_layout()
+
+        # Save with full transparency and no facecolor
+        plt.savefig(output_path, transparent=True, facecolor='none')
+        plt.close()
+    plot_forecast_graph(forecastdf)
 
     return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5),"forecast_temp.png"
 
