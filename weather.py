@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from dataclasses import dataclass
 import matplotlib.pyplot as plt
+import pytz
 
 #to get API key from .env directly
 load_dotenv()
@@ -73,13 +74,11 @@ def modeltraining():
 
 
     #Setting up data recieved as DataFrames
-    df = pd.DataFrame({
-        "datetime": data["hourly"]["time"][:5],
-        "temp": data["hourly"]["temperature_2m"][:5],
-        "precip": data["hourly"]["precipitation"][:5],
-        "cloudcover": data["hourly"]["cloudcover"][:5],
-        "weathercode": data["hourly"]["weathercode"][:5]
-        })
+    df=pd.DataFrame({"datetime":data["hourly"]["time"],
+                    "temp":data["hourly"]["temperature_2m"],
+                    "precip":data["hourly"]["precipitation"],
+                    "cloudcover":data["hourly"]["cloudcover"],
+                    "weathercode":data["hourly"]["weathercode"]})
 
     # to converts the string of datetime that is fetched to actual datetime64 bits for computation
     df["datetime"]=pd.to_datetime(df["datetime"]) 
@@ -142,46 +141,53 @@ def modeltraining():
     joblib.dump(classifier, "condition_model.pkl")
 
 def weatherforecast():
-    regression=joblib.load("temperature_model.pkl")
-    classifier=joblib.load("condition_model.pkl")
+    regression = joblib.load("temperature_model.pkl")
+    classifier = joblib.load("condition_model.pkl")
 
-    #switch start and end data from prev function - as for future start is today and end is day+1
-    start_date=datetime.today().strftime("%Y-%m-%d")  
-    end_date=(datetime.today()+timedelta(days=1)).strftime("%Y-%m-%d")
+    # switch start and end data from prev function - as for future start is today and end is day+1
+    start_date = datetime.today().strftime("%Y-%m-%d")  
+    end_date = (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
 
-    reqparameters={
-        "latitude":latitude,
-        "longitude":longitude,
-        "start_date":start_date,
-        "end_date":end_date,
+    reqparameters = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "start_date": start_date,
+        "end_date": end_date,
         "hourly": "precipitation,cloudcover,weathercode",
-        "timezone":"auto"}     #we need the data based on these conditions
-    
-    response=requests.get("https://api.open-meteo.com/v1/forecast",params=reqparameters)             
-    response.raise_for_status()                     #to check if data has been returned, else will raise an exception automatically
-    data=response.json()                    #setting up return value as data
+        "timezone": "auto"  # we need the data based on these conditions
+    }
 
-    #Setting up data recieved as DataFrames
-    forecastdf=pd.DataFrame({"datetime":data["hourly"]["time"],
-                    "precip":data["hourly"]["precipitation"],
-                    "cloudcover":data["hourly"]["cloudcover"],
-                    "weathercode":data["hourly"]["weathercode"]})
+    response = requests.get("https://api.open-meteo.com/v1/forecast", params=reqparameters)             
+    response.raise_for_status()  # to check if data has been returned, else will raise an exception automatically
+    data = response.json()  # setting up return value as data
+
+    # Setting up data received as DataFrames
+    forecastdf = pd.DataFrame({
+        "datetime": pd.to_datetime(data["hourly"]["time"]),
+        "precip": data["hourly"]["precipitation"],
+        "cloudcover": data["hourly"]["cloudcover"],
+        "weathercode": data["hourly"]["weathercode"]
+    })
 
     # to converts the string of datetime that is fetched to actual datetime64 bits for computation
-    forecastdf["datetime"]=pd.to_datetime(forecastdf["datetime"]) 
-    #remove null values
-    forecastdf=forecastdf.dropna(subset=["precip","cloudcover","weathercode"])
+    timezone_str = data.get("timezone", "UTC")  # get correct location timezone from API response
+    forecastdf["datetime"] = forecastdf["datetime"].dt.tz_localize("UTC").dt.tz_convert(timezone_str)
 
-    currentime=datetime.now()
-    forecastdf=forecastdf[forecastdf["datetime"]>=currentime]
-    forecastX=forecastdf[["precip","cloudcover","weathercode"]]
+    # remove null values
+    forecastdf = forecastdf.dropna(subset=["precip", "cloudcover", "weathercode"])
 
-    temperatureprediction=regression.predict(forecastX)
-    conditionprediction=classifier.predict(forecastX)
-    forecastdf["predictedtemperature"]=temperatureprediction
-    forecastdf["predictedcondition"]=conditionprediction
+    currentime = datetime.now(pytz.timezone(timezone_str))  # localized current time
+    forecastdf = forecastdf[forecastdf["datetime"] >= currentime]  # filter for future only
+
+    forecastX = forecastdf[["precip", "cloudcover", "weathercode"]]
+
+    temperatureprediction = regression.predict(forecastX)
+    conditionprediction = classifier.predict(forecastX)
+    forecastdf["predictedtemperature"] = temperatureprediction
+    forecastdf["predictedcondition"] = conditionprediction
+
     '''print("---------------PREDICTIONS---------------")'''
-    '''print(forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5))'''
+    '''print(forecastdf[["datetime", "predictedtemperature", "predictedcondition"]].head(5))'''
 
     def plot_forecast_graph(forecastdf, output_path="static/forecast_temp.png"):
         fig, ax = plt.subplots(figsize=(12, 4))  # Wider and shorter graph
@@ -208,9 +214,10 @@ def weatherforecast():
         # Save with full transparency and no facecolor
         plt.savefig(output_path, transparent=True, facecolor='none')
         plt.close()
+
     plot_forecast_graph(forecastdf)
 
-    return forecastdf[["datetime","predictedtemperature","predictedcondition"]].head(5),"forecast_temp.png"
+    return forecastdf[["datetime", "predictedtemperature", "predictedcondition"]].head(5), "forecast_temp.png"
 
 
 def main(cityname, statename, countryname):
