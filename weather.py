@@ -73,11 +73,13 @@ def modeltraining():
 
 
     #Setting up data recieved as DataFrames
-    df=pd.DataFrame({"datetime":data["hourly"]["time"],
-                    "temp":data["hourly"]["temperature_2m"],
-                    "precip":data["hourly"]["precipitation"],
-                    "cloudcover":data["hourly"]["cloudcover"],
-                    "weathercode":data["hourly"]["weathercode"]})
+    df = pd.DataFrame({
+        "datetime": data["hourly"]["time"][:5],
+        "temp": data["hourly"]["temperature_2m"][:5],
+        "precip": data["hourly"]["precipitation"][:5],
+        "cloudcover": data["hourly"]["cloudcover"][:5],
+        "weathercode": data["hourly"]["weathercode"][:5]
+        })
 
     # to converts the string of datetime that is fetched to actual datetime64 bits for computation
     df["datetime"]=pd.to_datetime(df["datetime"]) 
