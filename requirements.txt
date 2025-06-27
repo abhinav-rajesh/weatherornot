@@ -1,5 +1,9 @@
 Flask
+python-dotenv
 requests
 matplotlib
 pytz
-python-dotenv
+pandas
+numpy
+scikit-learn
+joblib
