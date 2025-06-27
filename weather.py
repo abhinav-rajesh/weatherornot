@@ -177,7 +177,8 @@ def weatherforecast():
     forecastdf = forecastdf.dropna(subset=["precip", "cloudcover", "weathercode"])
 
     currentime = datetime.now(pytz.timezone(timezone_str))  # localized current time
-    forecastdf = forecastdf[forecastdf["datetime"] >= currentime]  # filter for future only
+    next_5_hours = currentime + timedelta(hours=5)
+    forecastdf = forecastdf[(forecastdf["datetime"] >= currentime) & (forecastdf["datetime"] <= next_5_hours)]  # filter for next 5 hours only
 
     forecastX = forecastdf[["precip", "cloudcover", "weathercode"]]
 
@@ -190,34 +191,36 @@ def weatherforecast():
     '''print(forecastdf[["datetime", "predictedtemperature", "predictedcondition"]].head(5))'''
 
     def plot_forecast_graph(forecastdf, output_path="static/forecast_temp.png"):
-        fig, ax = plt.subplots(figsize=(12, 4))  # Wider and shorter graph
-        fig.patch.set_alpha(0.0)  # Make entire figure background transparent
+        from matplotlib.dates import HourLocator, DateFormatter  
 
-        # Plot the forecasted temperature
+        fig, ax = plt.subplots(figsize=(12, 4))
+        fig.patch.set_alpha(0.0)  # Transparent background
+
         ax.plot(forecastdf["datetime"], forecastdf["predictedtemperature"],
                 marker='o', linestyle='-', color='tab:blue')
 
-        # Styling
-        ax.set_title("Forecasted Temperature (Next 24 Hours)", fontsize=16, color='white')
-        ax.set_xlabel("Datetime", fontsize=12, color='white')
+        ax.set_title("Forecasted Temperature (Next 5 Hours)", fontsize=16, color='white')
+        ax.set_xlabel("Time", fontsize=12, color='white')
         ax.set_ylabel("Temperature (°C)", fontsize=12, color='white')
-        ax.tick_params(axis='x', rotation=45, labelsize=10, colors='white')
+
+        ax.xaxis.set_major_locator(HourLocator(interval=1))  # Show ticks every 1 hour
+        ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))  # Format as HH:MM  # Show hour:minute only
+        ax.tick_params(axis='x', rotation=0, labelsize=10, colors='white')
         ax.tick_params(axis='y', labelsize=10, colors='white')
 
-        # Remove grid and spines for cleaner look
         ax.grid(False)
         for spine in ax.spines.values():
             spine.set_visible(False)
 
         plt.tight_layout()
-
-        # Save with full transparency and no facecolor
         plt.savefig(output_path, transparent=True, facecolor='none')
         plt.close()
+
 
     plot_forecast_graph(forecastdf)
 
     return forecastdf[["datetime", "predictedtemperature", "predictedcondition"]].head(5), "forecast_temp.png"
+
 
 
 def main(cityname, statename, countryname):

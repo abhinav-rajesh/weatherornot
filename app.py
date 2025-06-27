@@ -34,3 +34,6 @@ if __name__ == "__main__":
         port=int(os.environ.get("PORT", 5000)),
         debug=False  # Optional: Set to False in production
     )
+
+'''if __name__ == "__main__":
+    app.run(debug=True)'''
